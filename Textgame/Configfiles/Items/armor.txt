@@ -1,1 +1,1 @@
-
+Helmet|Chestplate|Pants|Boots|Gloves|Shield|Mail|Underwear|Bucket|Barrel
