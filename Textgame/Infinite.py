@@ -42,7 +42,7 @@ else:
 if firstChoice == 1:
     alive, Armor, Weapon, Gold, hp, mhp, quest, level, xp = saveManager.load(True)
 if firstChoice == 2:
-    os.remove('Saves/save.txt')
+    os.remove('Saves/save.sav')
 time.sleep(1)
 
 
