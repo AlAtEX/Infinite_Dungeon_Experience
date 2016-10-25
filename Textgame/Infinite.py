@@ -11,7 +11,7 @@ xp = 0 #0
 LV_UP = 25 # ~25 is good
 saveQuit = False
 
-VERSION = '0.1 Alpha'
+VERSION = '0.2 Beta'
 
 def noneg(num):
     if num < 0:
