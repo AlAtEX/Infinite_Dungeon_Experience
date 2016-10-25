@@ -1,2 +1,2 @@
-VERSION 0.1 (Alpha)
+VERSION 0.2 (Beta)
 Game posted.
