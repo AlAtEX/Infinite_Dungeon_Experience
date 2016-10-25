@@ -1,0 +1,1 @@
+5:Wooden|10:Stone|15:Iron|20:Steel|25:Golden|30:Cobalt|35:Enchanted|40:Diamond-Encrusted|45:Dying-Star-Heart-Forged|!:Godbone

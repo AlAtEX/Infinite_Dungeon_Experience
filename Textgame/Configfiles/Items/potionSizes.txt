@@ -1,0 +1,1 @@
+100:Small Health Potion|150:Health Potion|200:Large Health Potion|250:Huge|!:Omega Health Potion
