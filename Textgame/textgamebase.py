@@ -15,7 +15,7 @@ def sdie(dtype):
         print("Watch out for the-Oh, nevermind.")
     time.sleep(1)
     sys.exit()
-def fight(hp, mhp, st, ar, ehp, emhp, est, ear, ename, encounter, deathtext, edeathtext, loot): #hp = health, mhp = maximum health, st = Damage, ar = Damage reduction
+def fight(hp, mhp, st, ar, ehp, emhp, est, ear, ename, encounter, deathtext, edeathtext, loot, canEscape): #hp = health, mhp = maximum health, st = Damage, ar = Damage reduction
     Gold = 0
     Armor = 0
     Weapon = 0
@@ -29,10 +29,14 @@ def fight(hp, mhp, st, ar, ehp, emhp, est, ear, ename, encounter, deathtext, ede
         time.sleep(2)
         print('The {e} has {a}/{b} HP, does {c} Damage and has an armor rating of {d}'.format(a = ehp, b = emhp, c = est, d = ear, e = ename))
         time.sleep(2)
-        fof = story('What do you do? Do you:', ["Attack","Run"],1,2)
+        if canEscape:
+            fof = story('What do you do? Do you:', ["Attack","Run"],1,2)
+        else:
+            fof = story('What do you do? Do you:', ["Attack"],1,1)
         if fof == 1:
             dod = True
         if fof == 2:
+
             prob = random.randint(1,3) 
             if prob == 1 or prob == 2:
                 print('You got away!')
@@ -64,18 +68,24 @@ def fight(hp, mhp, st, ar, ehp, emhp, est, ear, ename, encounter, deathtext, ede
                 print('You got {a} Gold!'.format(a = Gold))
                 time.sleep(1)
             if loot['Weapon'] != False:
-                if loot['Weapon'] > st:
-                    Weapon = loot['Weapon']
-                    print('Your attack is now {a}, by getting a new weapon!'.format(a = Weapon))
+                if loot['Weapon']['mod'] > st:
+                    Weapon = loot['Weapon']['mod']
+                    if loot['Weapon']['desc'][0:3].lower() == 'the':
+                        print('Your attack is now {a}, by getting {b}'.format(a = Weapon, b = loot['Weapon']['desc']))
+                    else:
+                        print('Your attack is now {a}, by getting a {b}'.format(a = Weapon, b = loot['Weapon']['desc']))
                     time.sleep(1)
                 else:
                     Weapon = st
             else:
                 Weapon = st
             if loot['Armor'] != False:
-                if loot['Armor'] > ar:
-                    Armor = loot['Armor']
-                    print('Your Armor is now {a}, by getting new Armor!'.format(a = Armor))
+                if loot['Armor']['mod'] > ar:
+                    Armor = loot['Armor']['mod']
+                    if loot['Armor']['desc'][0:3].lower() == 'the':
+                        print('Your attack is now {a}, by getting {b}'.format(a = Weapon, b = loot['Armor']['desc']))
+                    else:
+                        print('Your attack is now {a}, by getting a {b}'.format(a = Weapon, b = loot['Armor']['desc']))
                     time.sleep(1)
                 else:
                     Armor = ar
@@ -119,16 +129,16 @@ def store(entertext,items, gold, armor, weapon, hp, mhp, exittext, xp, level):
                 if items[ch-1]['type'] == 'st':
                     if weapon < items[ch-1]['mod']:
                         weapon = items[ch-1]['mod']
-                    print('Your damage is now {a}!'.format(a = weapon))
+                        print('Your damage is now {a}!'.format(a = weapon))
                 if items[ch-1]['type'] == 'ar':
                     if armor < items[ch-1]['mod']:
                         armor = items[ch-1]['mod']
-                    print('Your defence is now {a}!'.format(a = armor))
+                        print('Your defence is now {a}!'.format(a = armor))
                 if items[ch-1]['type'] == 'hp':
                     hp += items[ch-1]['mod']
                     if hp > mhp:
                         hp = mhp
-                    print('You were healed {a}HP!'.format(a = items[ch-1]['mod']))
+                        print('You were healed {a}HP!'.format(a = items[ch-1]['mod']))
                 if items[ch-1]['type'] == 'mhp':
                     mhp += items[ch-1]['mod']
                     print('Your max HP is now {a}!'.format(a = mhp))

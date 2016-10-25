@@ -48,4 +48,41 @@ def itemConfigs():
         raw = x.read()
         entries = raw.split('|')
         armor = entries
-    return weapons, armor
+    with open('Configfiles/Items/weaponMats.txt', 'r') as x:
+        raw = x.read()
+        entries = raw.split('|')
+        weaponMats = entries
+        for material in weaponMats:
+            num = weaponMats.index(material)
+            material = material.split(':')
+            try:
+                material[0] = int(material[0])
+            except:
+                pass
+            weaponMats[num] = material
+    with open('Configfiles/Items/armorMats.txt', 'r') as x:
+        raw = x.read()
+        entries = raw.split('|')
+        armorMats = entries
+        for material in armorMats:
+            num = armorMats.index(material)
+            material = material.split(':')
+            try:
+                material[0] = int(material[0])
+            except:
+                pass
+            armorMats[num] = material
+    with open('Configfiles/Items/potionSizes.txt', 'r') as x:
+        raw = x.read()
+        entries = raw.split('|')
+        potionSizes = entries
+        for material in potionSizes:
+            num = potionSizes.index(material)
+            material = material.split(':')
+            try:
+                material[0] = int(material[0])
+            except:
+                pass
+            potionSizes[num] = material
+    return weapons, armor, weaponMats, armorMats, potionSizes
+itemConfigs()

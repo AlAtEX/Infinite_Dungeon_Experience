@@ -1,11 +1,10 @@
 import os
 def Save(alive,Armor,Weapon,Gold,hp,mhp,quest,level,xp):
-    with open('Saves/save.txt','w') as save:
+    with open('Saves/save.sav','w') as save:
         save.write(str([alive,Armor,Weapon,Gold,hp,mhp,quest,level,xp]))
-#Save(True,0,1,0,100,100,False,1,0)
 def preLoad():
     try:
-        with open('Saves/save.txt','r') as save:
+        with open('Saves/save.sav','r') as save:
             raw = save.read()
             raw = raw[1:len(raw)- 1]
             values = raw.split(', ')
@@ -17,7 +16,7 @@ def preLoad():
     except:
         return False
 def load(alive):
-    with open('Saves/save.txt','r') as save:
+    with open('Saves/save.sav','r') as save:
         raw = save.read()
         raw = raw[1:len(raw)- 1]
         values = raw.split(', ')

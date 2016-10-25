@@ -1,4 +1,4 @@
-import sys, time, random, os, configReader, Inputs, saveManager, itemGen; import textgamebase as base; 
+import sys, time, random, os, configReader, Inputs, saveManager, itemGen, lootGen, tresureChest, eventReader; import textgamebase as base; 
 alive = True
 Armor = 0#0
 Weapon = 1 #1
@@ -41,21 +41,29 @@ else:
     firstChoice = 2
 if firstChoice == 1:
     alive, Armor, Weapon, Gold, hp, mhp, quest, level, xp = saveManager.load(True)
-if isProperSaveFile or firstChoice == 2:
+if firstChoice == 2:
     os.remove('Saves/save.txt')
-time.sleep(2)
+time.sleep(1)
+
+
+
 while alive:
     #1,2 = get quest/finish quest, 3,4 = choice/puzzle, 5,6 = fight, 7 = store,
-    event = random.randint(5,7)
+    event = random.randint(3,8)
     if event == 1 or event == 2:
         print('QUEST') 
         if quest == False:
             pass #TODO Get new quest
         else:
             pass #TODO Read quest data and do the next part.
-    if event == 3 or event == 4:
-        print('Riddle') #TODO make riddles/choices.
-    if event == 5 or event == 6:
+    if event == 3:
+        eventType = random.randint(1,2)
+        if eventType == 1:
+            Armor,Weapon,Gold,hp,mhp,level,xp = eventReader.getEvent(Armor,Weapon,Gold,hp,mhp,level,xp)
+        else:
+            Weapon,Armor,hp,mhp,xp,level = tresureChest.get(Weapon,Armor,hp,mhp,xp,level,1,4)
+        time.sleep(1)
+    if event == 4 or event == 5 or event == 6:
 
         #Fights
         saveQuit = False
@@ -84,21 +92,29 @@ while alive:
                 flagPos = edeathtext.index('#')
                 edeathtext = '{a}{b}{c}'.format(a = edeathtext[:flagPos], b = ename, c = edeathtext[flagPos + 1:])
         lootGold = random.randint(level, level + 20)
-        lootWeapon = random.choice([False, False, False, False, False, False, False, level + 1])
-        lootArmor = random.choice([False, False, False, False, False, False, False, level])
-        alive, gp, Armor, Weapon, hp = base.fight(hp, mhp, Weapon, Armor, (level * hpmod), (level * hpmod), (level * strmod), noneg(level - armod), ename, encounter, deathtext, edeathtext, {'Gold':lootGold,'Weapon':lootWeapon,'Armor':lootArmor}) 
+        weapon = random.choice([False,False,False,False,False,False,False,False,False,True])
+        if weapon:
+            lootWeapon = lootGen.lootGen(level,'weapon')
+        else:
+            lootWeapon = False
+        armor = random.choice([False,False,False,False,False,False,False,False,False,True])
+        if armor:
+            lootArmor = lootGen.lootGen(level,'armor')
+        else:
+            lootArmor = False
+        alive, gp, Armor, Weapon, hp = base.fight(hp, mhp, Weapon, Armor, (level * hpmod), (level * hpmod), (level * strmod), noneg(level - armod), ename, encounter, deathtext, edeathtext, {'Gold':lootGold,'Weapon':lootWeapon,'Armor':lootArmor}, True) 
         Gold += gp
         xpmod = random.randint(((level + 5) * 2),((level + 10 * 2)))
         xp += xpmod
         print('You got {a} xp!'.format(a = xpmod))
-    if event == 7:
+    if event == 7 or event == 8:
         saveQuit = True
         #store(entertext, items, gold, armor, weapon, hp, mhp, exittext, xp, level)
         enterExitIndex = random.randint(0,len(enterTexts) - 1)
         enterText = enterTexts[enterExitIndex]
         exitText = exitTexts[enterExitIndex]
         
-        items = itemGen.getItems(level,xp,LV_UP,Armor)
+        items = itemGen.getItems(level,xp,LV_UP,Armor,mhp)
         
         Gold, Armor, Weapon, hp, mhp, xp = base.store(enterText, items, Gold, Armor, Weapon, hp, mhp, exitText, xp, level)
     
@@ -111,14 +127,6 @@ while alive:
             print("You leveled up to level {a}!".format(a = level))
             mhp += 10
             hp = mhp
-            if Weapon >= level:
-                Weapom = Weapon
-            else:
-                Weapon += 1
-            if Armor >= level - 1:
-                Armor = Armor
-            else:
-                Armor += 1
             print("You have {a}/{b}HP and do {c} damage with {d} armor.".format(a=hp,b=mhp,c=Weapon,d=Armor))
             saveQuit = True
         if saveQuit:
