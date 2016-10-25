@@ -1,0 +1,8 @@
+With a bright flash, a UFO appears. A robot comes out. It tells you: "Come with me."
+!c|You think about it. Do you:|Go with him|Stay|2
+!1
+!ff|2|2|2|10|Cyborg|The computer tells you his name is JCN, he then yells, CYBORGS, ATTACK!|You feel the nanites taking control of your mind.|You defeat the cyborg.|4,False,False|2
+!p|JCN lets you go.
+!e
+!2
+!e

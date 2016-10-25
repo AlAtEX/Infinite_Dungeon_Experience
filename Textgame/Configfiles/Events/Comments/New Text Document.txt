@@ -1,0 +1,12 @@
+event_start_text
+!choice(literal):text:option1_text,option2_text...:number_of_choices
+!choice_number
+!fight:enemydata:reward...
+!choice_number
+!store...
+!more choices
+!tresure chest
+= story("You wake up in a cave.", ["Run","Hide"],1,2)
+ehp, emhp, est, ear, ename, encounter, deathtext, edeathtext, loot
+item = {'desc':desc,'mod':mod,'type':stat}
+name: 18 Damage
