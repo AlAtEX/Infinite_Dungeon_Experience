@@ -1,0 +1,7 @@
+merchants
+!st|I sell weapons|He sells armor|weapon
+!st|I sell armor|He sells Maximum Hp boosts|armor
+!st|I sell Maximum Hp boosts|He sells Health potions|healthMax
+!st|I sell Health Potions|He sells xp potions|healthPotion
+!st|I sell xp potions|I believe that is all|xp
+!p|You leave the caravan.

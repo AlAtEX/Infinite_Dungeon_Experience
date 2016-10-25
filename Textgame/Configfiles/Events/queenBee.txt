@@ -1,0 +1,2 @@
+You find a trail of honey. You know it leads to the Queen Bee!
+!ff|10|10|2|5|Queen Bee|You arrive at the Queen Bee's lair. She Attacks!|You get filled with millions of stinger holes.|You kill the Queen bee.|5,The Stinger/5,False|10

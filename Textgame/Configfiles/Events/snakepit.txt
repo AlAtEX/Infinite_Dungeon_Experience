@@ -1,1 +1,2 @@
-
+You fall into a snake pit
+!ff|3|3|4|0|Snake|A snake slitheres up to you.|The poison kills you.|You kill the dammned snake|10,Snake Fang/5,False|10

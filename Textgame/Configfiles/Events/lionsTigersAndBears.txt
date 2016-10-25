@@ -1,0 +1,12 @@
+You enter an old forest while walking on a yellow brick road.
+!c|You hear a growl. Do you think it is a:|lion|tiger|bear|3
+!1
+!ff|2|2|4|10|Lion|"Oh my!" You explain as a lion apppears out of nowhere.|You become lion food.|You take his teeth for a cool chackram.|3,Lion-tooth chakram/4,False|3
+!e
+!2
+!ff|3|3|3|9|Tiger|"Oh my!" You explain as a tiger appears out of nowhere.|You become tiger food.|You take some tiger-eye gems for selling.|10,False,False|4
+!e
+!3
+!ff|4|4|2|7|Bear|"Oh my!" You exclaim as a bear appears out of nowhere|You become bear food.|You skin him for some cool armor.|3,False,Bearskin Armor/3|3
+!e
+!p|The yellow brick road ends.

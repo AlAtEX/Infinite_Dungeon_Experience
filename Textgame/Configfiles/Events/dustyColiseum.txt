@@ -1,0 +1,4 @@
+ You enter a dusty coliseum.
+!fr
+!fr
+!ff|4|3|2|10|Undead Gladiator|You are attacked by an undead gladiator!|Your body will be a tasty meal for the gladiator.|You take the strong armor and chug a health potion laying near a not-so-lucky contestant.|75,Gladiator's sword/3,Gladiator armor/2|5
