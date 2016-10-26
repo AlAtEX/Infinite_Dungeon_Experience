@@ -38,7 +38,7 @@ if isProperSaveFile:
     print('would you like to load it? (If no, then save WILL be deleted.)\n1:Y\n2:N')
     firstChoice = Inputs.num(1,2)
 else:
-    firstChoice = 2
+    firstChoice = 3
 if firstChoice == 1:
     alive, Armor, Weapon, Gold, hp, mhp, quest, level, xp = saveManager.load(True)
 if firstChoice == 2:
