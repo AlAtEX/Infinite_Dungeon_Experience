@@ -88,9 +88,10 @@ def getItems(level,xp,LV_UP,Armor,mhp):
     healthCost = random.randint(level*2 + 20, level*2 + 40)
     defaultPrice = random.randint(level*3 + 20, level*3 + 40)
     rndPrice = random.randint(level*3 + 20, level*3 + 40)
+    rndStat = random.choice(['ar','st','hp','mhp','xp'])
     for item in range(1,itemNum):
         
-        itemType = random.randint(1,9)
+        itemType = random.randint(1,8)
         if itemType == 1 or itemType == 2:
             #weapon
             mod = random.choice([1,1,1,1,1,1,1,1,1,1,2,2,3])
@@ -170,9 +171,12 @@ def getItems(level,xp,LV_UP,Armor,mhp):
             desc = 'Xp potion: {a} Experience'.format(a = x)
             stat = 'xp'
             mod = x
+        '''
         if itemType == 9:
             desc = 'Random Box: random item'
             cost = rndPrice
+            stat = rndStat
+        '''
             
         items.append({'desc':desc,'price':cost,'type':stat,'mod':mod})
     return items
@@ -280,9 +284,11 @@ def getItemsByType(level,xp,LV_UP,Armor,mhp,kind):
             desc = 'Xp potion: {a} Experience'.format(a = x)
             stat = 'xp'
             mod = x
+        '''
         if itemType == 9:
             desc = 'Random Box: random item'
             cost = rndPrice
+        '''
             
         items.append({'desc':desc,'price':cost,'type':stat,'mod':mod})
     return items

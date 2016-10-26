@@ -83,9 +83,9 @@ def fight(hp, mhp, st, ar, ehp, emhp, est, ear, ename, encounter, deathtext, ede
                 if loot['Armor']['mod'] > ar:
                     Armor = loot['Armor']['mod']
                     if loot['Armor']['desc'][0:3].lower() == 'the':
-                        print('Your attack is now {a}, by getting {b}'.format(a = Weapon, b = loot['Armor']['desc']))
+                        print('Your defence is now {a}, by getting {b}'.format(a = Armor, b = loot['Armor']['desc']))
                     else:
-                        print('Your attack is now {a}, by getting a {b}'.format(a = Weapon, b = loot['Armor']['desc']))
+                        print('Your defence is now {a}, by getting a {b}'.format(a = Armor , b = loot['Armor']['desc']))
                     time.sleep(1)
                 else:
                     Armor = ar
