@@ -1,4 +1,4 @@
-merchants
+You come across a band of merchants.
 !st|I sell weapons|He sells armor|weapon
 !st|I sell armor|He sells Maximum Hp boosts|armor
 !st|I sell Maximum Hp boosts|He sells Health potions|healthMax
