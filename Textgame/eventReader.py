@@ -1,4 +1,4 @@
-import os,configReader,random,lootGen,itemGen,time; import textgamebase as base
+import os,configReader,random,lootGen,itemGen,time,tresureChest; import textgamebase as base
 def noneg(num):
     if num < 0:
         num = 0
@@ -33,6 +33,13 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                     choiceArgs = lines[lineNum].split('|')
                     choiceArgs[len(choiceArgs)-1] = int(choiceArgs[len(choiceArgs)-1][len(choiceArgs[len(choiceArgs)-1])-2:])
                     lens[depth] = choiceargs[len(choiceArgs)-1]
+                    depth += 1
+                if lines[lineNum][0:2] == '!r':
+                    lines[lineNum]= lines[lineNum][3:]
+                    choiceArgs = lines[lineNum].split('|')
+                    choiceArgs = choiceArgs[0]
+                    choice = random.choice(range(0,int(choiceArgs)+1))
+                    lens[depth] = choiceArgs[int(choiceArgs)]
                     depth += 1
                 if lines[lineNum][0:2] == '!{a}'.format(a = targetNum):
                     inChoice = True
@@ -88,7 +95,7 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                             lootArmor = False
                         alive, gp, Armor, Weapon, hp = base.fight(hp, mhp, Weapon, Armor, (level * hpmod), (level * hpmod), (level * strmod), noneg(level - armod), ename, encounter, deathtext, edeathtext, {'Gold':lootGold,'Weapon':lootWeapon,'Armor':lootArmor}, False) 
                         Gold += gp
-                        xpmod = random.randint(((level + 5) * 2),((level + 10 * 2)))
+                        xpmod = random.randint(((level + 5) * 2),((level + 10) * 2))
                         xp += xpmod
                         print('You got {a} xp!'.format(a = xpmod))
 
@@ -118,7 +125,6 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                         Gold += gp
                         xpmod = fightArgs[9]*level
                         xp += xpmod
-                        hp = mhp
 
 
 
@@ -135,6 +141,17 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                     targetNum = choice
                     looking = True
                     #|text|option_1|2|3|4...|number_of_choices
+                if lines[lineNum][0:2] == '!r':
+                    lines[lineNum]= lines[lineNum][3:]
+                    choiceArgs = lines[lineNum].split('|')
+                    choiceArgs = choiceArgs[0]
+                    choice = random.choice(range(0,int(choiceArgs)+1))
+                    lens[depth] = int(choiceArgs)
+                    targetLen = lens[depth]
+                    depth += 1
+                    targetDepth = depth
+                    targetNum = choice
+                    looking = True
                 
                 #Printing
                 if lines[lineNum][0:2] == '!p':
@@ -174,8 +191,14 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                         items = itemGen.getItems(level,xp,25,Armor,mhp)
                         Gold, Armor, Weapon, hp, mhp, xp = base.store(random.choice(enterTexts), items, Gold, Armor, Weapon, hp, mhp, random.choice(exitTexts),xp, level)
                     
-                        
-
+                #Treasure chest    
+                if lines[lineNum][0:2] == '!t':
+                    #random
+                    if lines[lineNum][2] == 'c':
+                        lines[lineNum] = lines[lineNum][4:]
+                        chestArgs = lines[lineNum].split('|')
+                        Weapon,Armor,hp,mhp,xp,level = tresureChest.get(Weapon,Armor,hp,mhp,xp,level,int(chestArgs[0]),int(chestArgs[1]))
+                    #fixed item
                 
                 if inChoice:
                     if lines[lineNum][0:2] == '!e':

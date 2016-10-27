@@ -57,11 +57,7 @@ while alive:
         else:
             pass #TODO Read quest data and do the next part.
     if event == 3:
-        eventType = random.randint(1,2)
-        if eventType == 1:
-            Armor,Weapon,Gold,hp,mhp,level,xp = eventReader.getEvent(Armor,Weapon,Gold,hp,mhp,level,xp)
-        else:
-            Weapon,Armor,hp,mhp,xp,level = tresureChest.get(Weapon,Armor,hp,mhp,xp,level,1,4)
+        Armor,Weapon,Gold,hp,mhp,level,xp = eventReader.getEvent(Armor,Weapon,Gold,hp,mhp,level,xp)
         time.sleep(1)
     if event == 4 or event == 5 or event == 6:
 
@@ -104,7 +100,7 @@ while alive:
             lootArmor = False
         alive, gp, Armor, Weapon, hp = base.fight(hp, mhp, Weapon, Armor, (level * hpmod), (level * hpmod), (level * strmod), noneg(level - armod), ename, encounter, deathtext, edeathtext, {'Gold':lootGold,'Weapon':lootWeapon,'Armor':lootArmor}, True) 
         Gold += gp
-        xpmod = random.randint(((level + 5) * 2),((level + 10 * 2)))
+        xpmod = random.randint(((level + 5) * 2),(((level + 10) * 2)))
         xp += xpmod
         print('You got {a} xp!'.format(a = xpmod))
     if event == 7 or event == 8:
