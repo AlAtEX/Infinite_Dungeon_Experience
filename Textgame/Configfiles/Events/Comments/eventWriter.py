@@ -7,12 +7,21 @@ with open(input('File name without extention:\n')+'.txt', 'w') as x:
     x.write(input('Text shown when event starts: ') + '\n')
     #end: tells the computer to end the current tag.
     while True:
-        item = input('What happens during {a}, "choice", "fight", "trap", "store", "print", "loot"(tresure) or "end": '.format(a = position))
+        item = input('What happens during {a}, "choice", "fight", "trap", "store", "print", "loot"(tresure), "random"(same as choice but random) or "end": '.format(a = position))
         if item == 'choice':
             x.write('!c|' + input('Text for choice: ') + '|')
             number_of_options = int(input('How many choices?: '))
             for num in range(0,number_of_options):
                 x.write(input('Text for option {a}: '.format(a=num + 1)) + '|')
+            x.write(str(number_of_options) + '\n')
+            currentdepth += 1
+            currentnums[str(currentdepth)] = 1
+            length[str(currentdepth)] = number_of_options
+            position = 'choice{a}'.format(a=currentdepth)
+            x.write('!1\n')
+        if item == 'random':
+            x.write('!r|')
+            number_of_options = int(input('How many choices?: '))
             x.write(str(number_of_options) + '\n')
             currentdepth += 1
             currentnums[str(currentdepth)] = 1
@@ -95,3 +104,13 @@ with open(input('File name without extention:\n')+'.txt', 'w') as x:
                 x.write('!st|'+input('Store enter text: ')+'|'+input('Store exit text: ')+'|'+input('Type("weapon","armor","healthPotion","healthMax","xp"): ')+'\n')
             if FoToR == 'r':
                 x.write('!sr|\n')
+        
+        if item == 'loot':
+            #(Treasure)
+            #!tc|1|4
+            ###Chest#Minimum items#Maximum items
+            CorF = input('Chest(random item(s)) or Fixed item(Wooden Sword)? Enter "c" or "f"')
+            if CorF == 'c':
+                x.write('!tc|' + input('Minimum num of items in chest: ')+'|'+input('Maximum num of items in chest'))
+            if CorF == 'f':
+                pass
