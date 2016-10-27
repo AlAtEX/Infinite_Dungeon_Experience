@@ -1,1 +1,1 @@
-Sword|Spear|Hammer|Axe|Hammaxe|Bow|Crossbow|Longbow|Dagger|Staff|Bound Tome|Wand|Sceptre|Halberd|Flail|Mace|Battlaxe|Club
+Sword|Spear|Hammer|Axe|Hammaxe|Bow|Crossbow|Longbow|Dagger|Staff|Bound Tome|Wand|Sceptre|Halberd|Flail|Mace|Battlaxe|Club|Feather Duster|Katana|Knife
