@@ -1,4 +1,4 @@
-import os,configReader,random,lootGen,itemGen,time,tresureChest; import textgamebase as base
+import os,configReader,random,lootGen,itemGen,time,tresureChest,re; import textgamebase as base
 def noneg(num):
     if num < 0:
         num = 0
@@ -14,49 +14,62 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
         lines = x.readlines()
         lineNum = 1
         lineLen = len(lines)
-        targetDepth = 0
-        targetNum = 0
-        targetLen = 0
-        depth = 0
-        lens = {}
-        tLens = {}
-        tCurr = {}
-        looking = False
         ignore = False
-        inChoice = False
-        print(lines[0])
+        depth = 0
+        ifElseLengths = {}
+        ifElseCurrent = {}
+        ifElseTargets = {}
+        
+        '''
+        Bob Marley is a purple panda
+        !r|3
+        -!1
+        -...
+        -!e
+        -!2
+        -...
+        -!3
+        -!r|2
+        --!1
+        --...
+        --!e
+        --!2
+        --...
+        --!e
+        -!e
+        '''
+     
         for num in range(0,len(lines)-1):
             lines[num] = lines[num][:len(lines[num]) - 1]
-            if looking == True:
+            #Main
+            if ignore:
                 if lines[lineNum][0:2] == '!c':
                     lines[lineNum]= lines[lineNum][3:]
                     choiceArgs = lines[lineNum].split('|')
-                    choiceArgs[len(choiceArgs)-1] = int(choiceArgs[len(choiceArgs)-1][len(choiceArgs[len(choiceArgs)-1])-2:])
-                    lens[depth] = choiceargs[len(choiceArgs)-1]
-                    depth += 1
+                    thisLen = int(choiceArgs[len(choiceArgs)-1])
+                    ifElseLengths[depth+1]=thisLen
                 if lines[lineNum][0:2] == '!r':
-                    lines[lineNum]= lines[lineNum][3:]
-                    choiceArgs = lines[lineNum].split('|')
-                    choiceArgs = choiceArgs[0]
-                    choice = random.choice(range(0,int(choiceArgs)+1))
-                    lens[depth] = choiceArgs[int(choiceArgs)]
+                    lines[lineNum]=lines[lineNum][3:]
+                    thisLen = int(lines[lineNum])
+                    ifElseLengths[depth+1]=thisLen
+                if lines[lineNum][0:2] == '!1':
                     depth += 1
-                if lines[lineNum][0:2] == '!{a}'.format(a = targetNum):
-                    inChoice = True
-                    looking = False
-                    tLens[depth] = targetLen
-                    tCurr[depth] = targetNum
-            elif ignore == True:
+                    ifElseCurrent[depth]=1
                 if lines[lineNum][0:2] == '!e':
-                    if tLens[depth] == tCurr[depth]:
-                        ignore = False
+                    ifElseCurrent[depth] +=1
+                    if ifElseCurrent[depth] - 1 == ifElseLengths[depth]:
+                        del ifElseCurrent[depth]
+                        del ifElseLengths[depth]
                         depth -= 1
-                    else:
-                        tCurr[depth] += 1
+                        dummy = ''
+                        try:
+                            dummy = ifElseTargets[depth]
+                        except:
+                            pass
+                        if dummy != '':
+                            ignore = False
+            #fighta
             else:
-                #Main
-
-                #fighta
                 if lines[lineNum][0:2] == '!f':
                     if lines[lineNum][2] == 'r':
                         hpmod = random.randint(1,3)
@@ -134,25 +147,23 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                     choiceArgs = lines[lineNum].split('|')
                     choiceArgs[len(choiceArgs)-1] = int(choiceArgs[len(choiceArgs)-1][len(choiceArgs[len(choiceArgs)-1])-2:])
                     choice = base.story(choiceArgs[0],choiceArgs[1:len(choiceArgs)-1],1,choiceArgs[len(choiceArgs)-1])
-                    lens[depth] = choiceArgs[len(choiceArgs)-1]
-                    targetLen = lens[depth]
                     depth += 1
-                    targetDepth = depth
-                    targetNum = choice
-                    looking = True
+                    
+                    ifElseLengths[depth] = choiceArgs[len(choiceArgs) - 1]
+                    ifElseCurrent[depth] = 0
+                    ifElseTargets[depth] = choice
+        
+        
                     #|text|option_1|2|3|4...|number_of_choices
                 if lines[lineNum][0:2] == '!r':
                     lines[lineNum]= lines[lineNum][3:]
                     choiceArgs = lines[lineNum].split('|')
                     choiceArgs = choiceArgs[0]
-                    choice = random.choice(range(0,int(choiceArgs)+1))
-                    lens[depth] = int(choiceArgs)
-                    targetLen = lens[depth]
-                    depth += 1
-                    targetDepth = depth
-                    targetNum = choice
-                    looking = True
-                
+                    choice = random.choice(range(1,int(choiceArgs)+1))
+                    
+                    ifElseLengths[depth] = choiceArgs[len(choiceArgs) - 1]
+                    ifElseCurrent[depth] = 0
+                    ifElseTargets[depth] = choice
                 #Printing
                 if lines[lineNum][0:2] == '!p':
                     lines[lineNum] = lines[lineNum][3:]
@@ -199,20 +210,31 @@ def getEvent(Armor,Weapon,Gold,hp,mhp,level,xp):
                         chestArgs = lines[lineNum].split('|')
                         Weapon,Armor,hp,mhp,xp,level = tresureChest.get(Weapon,Armor,hp,mhp,xp,level,int(chestArgs[0]),int(chestArgs[1]))
                     #fixed item
-                
-                if inChoice:
-                    if lines[lineNum][0:2] == '!e':
-                        if tLens[depth] == tCurr[depth]:
-                            inChoice = False
-                            depth -= 1
-                        else:
-                            tCurr[depth] += 1
-                            inChoice = False
-                            ignore = True
+                v = re.search(r'!\d*',lines[lineNum][0:2])
+                try:
+                    v = v.group()
+                    if v[1] != str(ifElseTargets[depth]):
+                        ignore = True
+                except:
+                    pass
+                if lines[lineNum][0:2] == '!e':
+                    ifElseCurrent[depth] +=1
+                    if ifElseCurrent[depth] - 1 == ifElseLengths[depth]:
+                        del ifElseCurrent[depth]
+                        del ifElseLengths[depth]
+                        del ifElseTarget[depth]
+                        depth -= 1
+                        dummy = ''
+                        try:
+                            dummy = ifElseTargets[depth]
+                        except:
+                            pass
+                        if dummy != '':
+                            ignore = False
+                    
                             
             lineNum += 1
             if alive == False:
                 time.sleep(5)
                 quit()
         return Armor,Weapon,Gold,hp,mhp,level,xp
-
